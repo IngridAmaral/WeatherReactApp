@@ -23,7 +23,7 @@ class Day extends Component {
       }
 
       return (
-      <div className='day'>
+      <div className='day' onClick={this.props.onClick} id={this.props.id}>
         <p>{this.props.weekDay}</p>
         <img src={image()} alt={this.props.dateMili} />
         <div>

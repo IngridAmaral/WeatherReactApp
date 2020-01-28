@@ -10,7 +10,7 @@
 .App-display {
   display: flex;
   align-items: center;
-  height: 40%;
+  height: 35%;
   width: 80%;
   background-color: aliceblue;
   border-radius: .2rem;
@@ -29,10 +29,86 @@
   border: 1px grey solid;
 }
 
+.datePopup {
+  border: 1px solid green;
+  font-size: 1.5rem;
+  color: #000;
+}
+
+.nanoImg{
+  height: 100%;
+  width: 8%;
+}
+
+.headerPopup{
+  display: flex;
+  align-content: center;
+  border: 1px solid blueviolet;
+  width: 100%;
+}
+
+.buttonPopup{
+  justify-self: left;
+  border: 2px solid green;
+}
+
+.hour-info {
+  height: 2.5rem;
+  margin: .25rem;
+  width: 95%;
+  border-radius: .2rem;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: .2rem;
+  color: #fff;
+  background: #235787;
+}
+
+.informationsDay {
+  border: 1px solid yellow;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: .5rem;
+}
+
 img { 
   display: flex;
   height: 5rem;
   width: 5rem;
+}
+
+.day {
+  cursor: pointer;
+}
+
+p, img{
+  pointer-events: none;
+}
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+  transition: all 1s ease;
+}
+.popup_inner {
+  transition: all 1s ease;
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 10%;
+  bottom: 10%;
+  margin: auto;
+  background: #fff;
 }
 
 @media (max-width: 694px) {
