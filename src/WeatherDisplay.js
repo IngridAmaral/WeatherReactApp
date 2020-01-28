@@ -1,6 +1,7 @@
 import Day from './Day.js'
 import DaysInformations from './DaysInformations.js'
 import React, { Component } from 'react';
+import { getNodeText } from '@testing-library/react';
 
 class WeatherDisplay extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class WeatherDisplay extends Component {
                const dateOnly = date.getDate()
                const dateAndHours = curr.dt_txt
                const fellsLike = temperatureConverter(curr.main.feels_like)
-               const humidity = curr.main.humidity
+               const humidity = curr.main.humidity+'%'
                const temperature = temperatureConverter(curr.main.temp)
                const tempMin = temperatureConverter(curr.main.temp_min)
                const tempMax = temperatureConverter(curr.main.temp_max)
@@ -39,46 +40,70 @@ class WeatherDisplay extends Component {
                return {date, dateOnly, dateAndHours, dateMili, tempMin, tempMax, temperature, fellsLike, humidity, weather, weatherDescription}
            })
            //....
-
            this.setState({ info: usefulInfo })
-         })
-
-         
+         })      
     }
 
     handleClick = (e) => {
-        const day = e.target.id
-        this.setState({
+        const idxId = e.target.id
+        this.setState((state) => ({
             showPopup: !this.state.showPopup,
-            dayId: day,
-        });
+            dayId: idxId,
+        }));
+    }
+
+    handleNextDayClick = (e) => {
+        console.log(e.target.id)
     }
 
     render() { 
-       const weekWeather = []
+       let equalDaysErase = []
+       let daysEach = []
        const weather = (this.state.info).forEach((curr, idx, info) => {
-                //console.log()
-                const next = idx < info.length-1 ? info[idx+1].date.getDate() : ''
-                if (curr.date.getDate() !== next) {
-                    weekWeather.push(curr)
-                } 
-        })  
-
+                const nextDay = idx < info.length-1 ? info[idx+1].dateOnly : ''       
+                if (curr.dateOnly == nextDay) {  
+                    if (curr.weatherDescription === 'broken clouds') {
+                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sunny-512.png'
+                    } else if (curr.weatherDescription === 'overcast clouds') {
+                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/cloudy-512.png'
+                    } else if (curr.weatherDescription === 'few clouds') {
+                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/cloud-512.png'
+                    } else if (curr.weatherDescription === 'light rain') {
+                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/rain-512.png'
+                    } else if (curr.weatherDescription === 'clear sky') {
+                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sun-512.png'
+                    } else if (curr.weatherDescription === 'moderate rain') {
+                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/rain-512.png'
+                    }else {
+                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sunny-512.png'
+                    } 
+                    curr.fullDate = curr.dateAndHours.split(' ')[0]                       
+                    equalDaysErase.push(curr)
+                } else {
+                    daysEach.push(equalDaysErase)
+                    equalDaysErase = []
+                }                
+        })     
+        
         return (
             <div className="App-display">
-                {weekWeather.map((curr, idx) => {
+                {daysEach.map((curr, idx) => {
                     const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+                    //console.log(curr.dateOnly)
                     return <Day 
                                 onClick={this.handleClick.bind(this)}
-                                id={curr.dateOnly}
-                                {...curr} 
-                                weekDay={days[curr.date.getDay()]} 
-                                key={curr.dateMili} 
-                                info={this.state.info} />
+                                id={idx}
+                                {...curr[0]}                                 
+                                weekDay={days[curr[0].date.getDay()]} 
+                                key={curr[0].dateMili} 
+                                info={this.state.info}
+                                image={curr[0].image} />
                 })}
                 {this.state.showPopup ? 
                 <DaysInformations 
-                    state={this.state}
+                    handleNextDay={this.handleNextDayClick.bind(this)}
+                    daysEach={daysEach}
+                    dayId={this.state.dayId}
                     info={this.state.info}
                     text='x'
                     closePopup={this.handleClick.bind(this)}
