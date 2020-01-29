@@ -41,7 +41,7 @@ class WeatherDisplay extends Component {
     }
 
     handleClick = (e) => {
-        const idxId = e.target.id
+        const idxId = Number(e.target.id)
         this.setState((state) => ({
             showPopup: !this.state.showPopup,
             dayId: idxId,
@@ -52,7 +52,7 @@ class WeatherDisplay extends Component {
         let stateday = this.state.dayId
         if (e.target.id === 'next') {
             stateday < 5 ? stateday++ : stateday = 0;
-        } else {
+        } else if(e.target.id === 'previous'){
             stateday > 0 ? stateday -- : stateday = 5;
         }
         this.setState({dayId: stateday})
@@ -97,11 +97,12 @@ class WeatherDisplay extends Component {
                 }                         
         })   
 
-        console.log(daysEach)
+        console.log(this.state.dayId)
         
         return (
             <div className="App-display">
                 {daysEach.map((curr, idx, days) => {
+                    // console.log('each day idx: ',idx)
                         return <Day 
                                     onClick={this.handleClick.bind(this)}
                                     id={idx}

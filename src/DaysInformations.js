@@ -10,7 +10,6 @@ class DaysInformations extends Component {
             opacity: '1',
             visibility: 'visible'
         }
-
         return (
             <div className='popup'  style={opacity} >
                 <div className='popup_inner'>

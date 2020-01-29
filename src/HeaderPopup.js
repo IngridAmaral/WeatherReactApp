@@ -15,7 +15,7 @@ class HeaderPopup extends Component {
                                      />
                             </div>
                             <p className='header-popup-p'>{weekDay}</p>
-                            <p className='header-popup-p'>{fullDate}</p>
+                            <p className='header-popup-p-fulldate'>{fullDate}</p>
                             <div className='arrow-icon' onClick={handleNextDay} id='next'> 
                                 <img className='arrow-icon-img'
                                     alt='' 

@@ -10,8 +10,8 @@
 .App-display {
   display: flex;
   align-items: center;
-  height: 35%;
-  width: 80%;
+  height: 40%;
+  width: auto;
   background-color: aliceblue;
   border-radius: .2rem;
   -webkit-box-shadow: 16px 17px 32px -5px rgba(0,0,0,0.47);
@@ -21,6 +21,7 @@
 
 .day {
   height: 100%;
+  padding: 0 1.5rem 0 1.5rem;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -39,6 +40,7 @@
 }
 
 .min-max {
+  width: 100%;
   font-size: .8rem;
 }
 
@@ -87,7 +89,7 @@
   background: #235787;
 }
 
-.header-popup-p {
+.header-popup-p, .header-popup-p-fulldate {
   width: 9rem;
 }
 
@@ -204,26 +206,68 @@ p, img{
 }
 
 
-@media (max-width: 694px) {
+@media (max-width: 815px) {
   .App-display {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    height: 80%;
-    width: 80%;
-    background-color: aliceblue;
-    border-radius: .2rem;
-    -webkit-box-shadow: 16px 17px 32px -5px rgba(0,0,0,0.47);
-    -moz-box-shadow: 16px 17px 32px -5px rgba(0,0,0,0.47);
-    box-shadow: 16px 17px 32px -5px rgba(0,0,0,0.47);
+    height: auto;
+    width: 60%;
   }
 
   .day {
     height: 50%;
     display: flex;
     flex-direction: column;
+    flex: 1;
     justify-content: center;
     align-items: center;
-  }  
+    text-align: center; 
+    border: .05rem solid grey;
+    transition: all .2s ease-out;
+  }
+  
+  .day:hover {
+    transform: scale(.99);
+    border: none;
+    background: #235787;
+    flex: 1.05;
+  }
 }
 
+@media (max-width: 550px) { 
+  .App {
+    height: 100%;
+  }
+
+  .header-popup-p-fulldate {
+    visibility: hidden;
+    width: 0;
+  }
+
+  .popup_inner {
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    margin: auto;
+  }
+
+  .infos-p {
+    font-size: .8rem;
+  }
+  
+  .arrow-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+    cursor: pointer;
+    margin-right: .1rem;
+    margin-left: .1rem;
+    border-radius: 10%;
+  }
+
+  .nanoImg {
+    visibility: hidden;
+  }
+}

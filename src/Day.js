@@ -13,15 +13,14 @@ class Day extends Component {
         tempMax = hour.tempMax.replace('°C', '')
        };       
     });
-    console.log(tempMin)
-    console.log()
       return (
       <div className='day' onClick={this.props.onClick} id={this.props.id}>
         <p>{this.props.weekDay}</p>
         <img src={this.props.image} alt={this.props.dateMili} />
         <div>
         <p>{this.props.temperature}</p>
-        <p className='min-max'>min {tempMin+'°C'} / max {tempMax+'°C'}</p>
+        <p className='min-max'>min {tempMin+'°C'}</p>
+        <p className='min-max'>max {tempMax+'°C'}</p>
         </div>  
       </div>
     )    
