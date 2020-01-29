@@ -2,17 +2,30 @@ import React, { Component } from 'react'
 
 class HeaderPopup extends Component {
     render () {
-        const { handleNextDay, onClickBtn, fullDate, dayId } = this.props
+        const { handleNextDay, closePopup, fullDate, weekDay } = this.props
         return (
             <div className='headerPopup'>
                 <div className='button-and-date-headerpopup'>
                     <div className='datePopup'>
-                            <img className='arrow-icon' src='https://image.flaticon.com/icons/svg/126/126492.svg' id='previous' onClick={handleNextDay} />
-                            <p>{fullDate}</p>
-                            <img className='arrow-icon' src='https://image.flaticon.com/icons/svg/126/126490.svg' id='next' onClick={handleNextDay} />
+                            <div className='arrow-icon' onClick={handleNextDay} id='previous'>                            
+                                <img className='arrow-icon-img'
+                                    alt='' 
+                                    src='https://image.flaticon.com/icons/svg/126/126492.svg' 
+                                    id='previous' 
+                                     />
+                            </div>
+                            <p className='header-popup-p'>{weekDay}</p>
+                            <p className='header-popup-p'>{fullDate}</p>
+                            <div className='arrow-icon' onClick={handleNextDay} id='next'> 
+                                <img className='arrow-icon-img'
+                                    alt='' 
+                                    src='https://image.flaticon.com/icons/svg/126/126490.svg' 
+                                    id='next' 
+                                     />
+                            </div>    
                     </div>
                     <div className='buttonPopup'>
-                        <button onClick={onClickBtn}>x</button>
+                        <button onClick={closePopup}>x</button>
                     </div>
                 </div>
                 <div className='infos'>

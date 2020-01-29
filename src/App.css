@@ -26,7 +26,20 @@
   flex: 1;
   justify-content: center;
   align-items: center;
-  border: 1px grey solid;  
+  border: .1rem grey solid; 
+  text-align: center; 
+  transition:all .2s ease-out;
+}
+
+.day:hover {
+  transform: scale(.99);
+  border: none;
+  background: #235787;
+  flex: 1.05;
+}
+
+.min-max {
+  font-size: .8rem;
 }
 
 .nanoImg{
@@ -61,11 +74,26 @@
   flex-grow: 3;
 }
 
-img.arrow-icon {
+.arrow-icon {
   height: 1.5rem;
   width: 1.5rem;
   cursor: pointer;
-  border: hotpink 1px solid;
+  margin-right: .5rem;
+  margin-left: .5rem;
+  border-radius: 10%;
+}
+
+.arrow-icon:hover {
+  background: #235787;
+}
+
+.header-popup-p {
+  width: 9rem;
+}
+
+.arrow-icon-img{
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .infos {
@@ -108,6 +136,7 @@ button {
   padding: .25rem;
   background: #235787;
   flex: 1;
+  
 }
 
 .hour-info-each {
@@ -139,6 +168,12 @@ button {
   right: 0;
   bottom: 0;
   margin: auto;
+  opacity: 0;
+  -webkit-transition: 3s;
+  -moz-transition: 3s;
+  -o-transition: 3s;
+  transition: 3s;
+  visibility: hidden;
 }
 
 .popup_inner {
@@ -149,9 +184,10 @@ button {
   bottom: 10%;
   margin: auto;
   background: #fff;
+  -webkit-box-shadow: 16px 17px 32px -5px rgba(0,0,0,0.47);
+  -moz-box-shadow: 16px 17px 32px -5px rgba(0,0,0,0.47);
+  box-shadow: 16px 17px 32px -5px rgba(0,0,0,0.47); 
 }
-
-
 
 img { 
   display: flex;

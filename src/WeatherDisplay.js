@@ -1,18 +1,15 @@
 import Day from './Day.js'
 import DaysInformations from './DaysInformations.js'
 import React, { Component } from 'react';
-import { getNodeText } from '@testing-library/react';
 
 class WeatherDisplay extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        info: [],
-        showPopup: false,
-        dayId: null,
+        state = {
+            info: [],
+            showPopup: false,
+            dayId: null,
+            daysEach: []
         };
-    }
-
+      
     componentDidMount() {
         fetch('http://api.openweathermap.org/data/2.5/forecast?q=Berlin,deid=524901&APPID=9da7f2b391643ec2e3f6e8fbdd752534')
            .then(response => {
@@ -39,7 +36,6 @@ class WeatherDisplay extends Component {
        
                return {date, dateOnly, dateAndHours, dateMili, tempMin, tempMax, temperature, fellsLike, humidity, weather, weatherDescription}
            })
-           //....
            this.setState({ info: usefulInfo })
          })      
     }
@@ -53,60 +49,76 @@ class WeatherDisplay extends Component {
     }
 
     handleNextDayClick = (e) => {
-        console.log(e.target.id)
+        let stateday = this.state.dayId
+        if (e.target.id === 'next') {
+            stateday < 5 ? stateday++ : stateday = 0;
+        } else {
+            stateday > 0 ? stateday -- : stateday = 5;
+        }
+        this.setState({dayId: stateday})
     }
 
     render() { 
        let equalDaysErase = []
        let daysEach = []
        const weather = (this.state.info).forEach((curr, idx, info) => {
-                const nextDay = idx < info.length-1 ? info[idx+1].dateOnly : ''       
-                if (curr.dateOnly == nextDay) {  
-                    if (curr.weatherDescription === 'broken clouds') {
-                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sunny-512.png'
-                    } else if (curr.weatherDescription === 'overcast clouds') {
-                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/cloudy-512.png'
-                    } else if (curr.weatherDescription === 'few clouds') {
-                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/cloud-512.png'
-                    } else if (curr.weatherDescription === 'light rain') {
-                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/rain-512.png'
-                    } else if (curr.weatherDescription === 'clear sky') {
-                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sun-512.png'
-                    } else if (curr.weatherDescription === 'moderate rain') {
-                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/rain-512.png'
-                    }else {
-                        curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sunny-512.png'
-                    } 
-                    curr.fullDate = curr.dateAndHours.split(' ')[0]                       
+                const nextDay = idx < info.length-1 ? info[idx+1].dateOnly : ''  
+                //console.log(curr.dateOnly, nextDay, idx, idx == 0, curr.dateOnly !== nextDay)
+                if (curr.weatherDescription === 'broken clouds') {
+                    curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sunny-512.png'
+                } else if (curr.weatherDescription === 'overcast clouds') {
+                    curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/cloudy-512.png'
+                } else if (curr.weatherDescription === 'few clouds') {
+                    curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/cloud-512.png'
+                } else if (curr.weatherDescription === 'light rain') {
+                    curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/rain-512.png'
+                } else if (curr.weatherDescription === 'clear sky') {
+                    curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sun-512.png'
+                } else if (curr.weatherDescription === 'moderate rain') {
+                    curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/rain-512.png'
+                }else {
+                    curr.image = 'https://cdn3.iconfinder.com/data/icons/weather-344/142/sunny-512.png'
+                } 
+
+                curr.fullDate = curr.dateAndHours.split(' ')[0] 
+                
+                const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+                curr.weekDay = days[curr.date.getDay()]
+
+                if (idx == 0 && curr.dateOnly !== nextDay){
+                    equalDaysErase.push(curr)
+                    daysEach.push(equalDaysErase)
+                    equalDaysErase = []
+                }else if (curr.dateOnly === nextDay) {                    
                     equalDaysErase.push(curr)
                 } else {
                     daysEach.push(equalDaysErase)
                     equalDaysErase = []
-                }                
-        })     
+                }                         
+        })   
+
+        console.log(daysEach)
         
         return (
             <div className="App-display">
-                {daysEach.map((curr, idx) => {
-                    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-                    //console.log(curr.dateOnly)
-                    return <Day 
-                                onClick={this.handleClick.bind(this)}
-                                id={idx}
-                                {...curr[0]}                                 
-                                weekDay={days[curr[0].date.getDay()]} 
-                                key={curr[0].dateMili} 
-                                info={this.state.info}
-                                image={curr[0].image} />
+                {daysEach.map((curr, idx, days) => {
+                        return <Day 
+                                    onClick={this.handleClick.bind(this)}
+                                    id={idx}
+                                    {...curr[0]} 
+                                    daysEach={curr}                                
+                                    weekDay={curr[0].weekDay} 
+                                    key={curr[0].dateMili} 
+                                    info={this.state.info}
+                                    image={curr[0].image} />
+
                 })}
                 {this.state.showPopup ? 
                 <DaysInformations 
-                    handleNextDay={this.handleNextDayClick.bind(this)}
+                    handleNextDay={this.handleNextDayClick}
                     daysEach={daysEach}
                     dayId={this.state.dayId}
-                    info={this.state.info}
-                    text='x'
-                    closePopup={this.handleClick.bind(this)}
+                    closePopup={this.handleClick}
                 />
                 : null
                 }
